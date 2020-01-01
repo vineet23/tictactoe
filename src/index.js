@@ -5,6 +5,7 @@ import { createStore } from "redux";
 import rootReducer from "./reducers";
 import { Provider } from "react-redux";
 import Home from "./components/Home";
+import Game from "./components/Game";
 
 //created store
 const store = createStore(rootReducer);
@@ -16,6 +17,7 @@ ReactDOM.render(
     <BrowserRouter>
       <Switch>
         <Route exact path="/" component={Home} />
+        <Route path="/game" component={Game} />
       </Switch>
     </BrowserRouter>
   </Provider>,

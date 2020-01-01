@@ -64,7 +64,7 @@ class Home extends Component {
 
   render() {
     return (
-      <div className="container mdc-typography">
+      <div className="container">
         <Elevation wrap z={4}>
           <Card className="main" style={{ backgroundColor: "#0cce6b" }}>
             <div className="main-table">
