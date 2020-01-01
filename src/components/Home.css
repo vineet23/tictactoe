@@ -1,0 +1,36 @@
+* {
+  margin: 0%;
+  padding: 0%;
+}
+
+.container {
+  min-height: 100vh;
+  width: 100%;
+  display: grid;
+  background-color: #15b097;
+}
+
+.main {
+  justify-self: center;
+  width: 50%;
+}
+
+.main-table {
+  display: grid;
+  min-height: 100%;
+  width: 100%;
+  grid-template-columns: 1fr;
+  grid-template-rows: 80% 20%;
+}
+
+@media (max-width: 770px) {
+  .main {
+    width: 70%;
+  }
+}
+
+@media (max-width: 500px) {
+  .main {
+    width: 100%;
+  }
+}
