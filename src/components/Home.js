@@ -22,9 +22,7 @@ class Home extends Component {
       //to define whether to show scan or display
       scan: true,
       //to make a room id
-      room: this.makeid(12),
-      //result of the scan
-      result: ""
+      room: this.makeid(12)
     };
   }
 
@@ -33,10 +31,8 @@ class Home extends Component {
     if (data) {
       console.log("scanned", data);
       //to join the room
+      this.props.setRoom(data);
       socket.emit("join", data);
-      this.setState({
-        result: data
-      });
     }
   };
   //to handle the error
@@ -63,8 +59,8 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    this.props.setRoom({ room: this.state.room });
-    this.props.setRound({ round: 0 });
+    this.props.setRoom(this.state.room);
+    this.props.setRound({ round: 1 });
     this.props.setScore({ score: 0 });
     //connecting to the server
     socket = io(url + ":4000");
