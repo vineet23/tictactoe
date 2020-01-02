@@ -15,6 +15,11 @@
   width: 50%;
 }
 
+.GameWindow {
+  width: 80%;
+  height: 60%;
+}
+
 .Gameheader {
   display: grid;
   width: 100%;
@@ -43,6 +48,11 @@
   background-color: rgba(0, 0, 0, 0.3);
 }
 
+.GameWindow {
+  width: 80%;
+  height: 60%;
+}
+
 .Gameplayground > div {
   background-color: #0cce6b;
   cursor: pointer;
@@ -54,6 +64,19 @@
   width: 100%;
   grid-template-columns: 1fr;
   grid-template-rows: 15% 70% 15%;
+}
+
+@media (min-width: 1024px) {
+  .GameWindow {
+    height: 40%;
+  }
+}
+
+@media (min-width: 1024px) and (max-height: 800px) {
+  .GameWindow {
+    height: 60%;
+    width: 50%;
+  }
 }
 
 @media (max-width: 770px) {

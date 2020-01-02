@@ -1,0 +1,36 @@
+* {
+  margin: 0%;
+  padding: 0%;
+}
+
+.Exitcontainer {
+  min-height: 100vh;
+  width: 100%;
+  display: grid;
+  background-color: #15b097;
+}
+
+.Exitmain {
+  justify-self: center;
+  width: 50%;
+}
+
+.Exitmain-table {
+  display: grid;
+  min-height: 100%;
+  width: 100%;
+  grid-template-columns: 1fr;
+  grid-template-rows: 70% 30%;
+}
+
+@media (max-width: 770px) {
+  .Exitmain {
+    width: 70%;
+  }
+}
+
+@media (max-width: 500px) {
+  .Exitmain {
+    width: 100%;
+  }
+}

@@ -28,13 +28,20 @@ class Game extends Component {
                     <Typography use="headline6">ROUND 2</Typography>
                   </div>
                   <div style={{ textAlign: "center", alignSelf: "center" }}>
-                    <Button label="Exit" danger outlined />
+                    <Button
+                      label="Exit"
+                      danger
+                      outlined
+                      onClick={() => {
+                        this.props.history.replace("/exit");
+                      }}
+                    />
                   </div>
                 </div>
               </div>
               <div>
                 <div className="Gameplay">
-                  <div style={{ width: "80%", height: "60%" }}>
+                  <div className="GameWindow">
                     <div className="Gameplayground">
                       <div></div>
                       <div></div>
