@@ -3,6 +3,7 @@ import { Card } from "@rmwc/card";
 import { Elevation } from "@rmwc/elevation";
 import { Button } from "@rmwc/button";
 import { Typography } from "@rmwc/typography";
+import Alert from "./Alert";
 import "./Game.css";
 import "@material/typography/dist/mdc.typography.css";
 import "@material/card/dist/mdc.card.css";
@@ -10,9 +11,46 @@ import "@material/elevation/dist/mdc.elevation.css";
 import "@material/button/dist/mdc.button.css";
 
 class Game extends Component {
+  constructor() {
+    super();
+    this.setaction = this.setaction.bind(this);
+    this.state = {
+      open: false,
+      title: "",
+      content: "",
+      exit: false
+    };
+  }
+
+  setaction(action) {
+    if (action === "ok") {
+      //if exit
+      if (this.state.exit) {
+        this.props.history.replace("/exit");
+      }
+      //else hide the alert
+      else {
+        this.setState({
+          open: false
+        });
+      }
+    } else {
+      this.setState({
+        open: false
+      });
+    }
+  }
+
   render() {
     return (
       <div className="Gamecontainer">
+        <Alert
+          open={this.state.open}
+          title={this.state.title}
+          content={this.state.content}
+          exit={this.state.exit}
+          setaction={this.setaction.bind(this)}
+        />
         <Elevation wrap z={4}>
           <Card className="Gamemain" style={{ backgroundColor: "#0cce6b" }}>
             <div className="Gamemain-table">
@@ -33,7 +71,12 @@ class Game extends Component {
                       danger
                       outlined
                       onClick={() => {
-                        this.props.history.replace("/exit");
+                        this.setState({
+                          open: true,
+                          title: "Exit",
+                          content: "Do you want to exit?",
+                          exit: true
+                        });
                       }}
                     />
                   </div>

@@ -42,7 +42,14 @@ class Exit extends Component {
                   alignSelf: "center"
                 }}
               >
-                <Button label="Exit" danger outlined />
+                <Button
+                  label="Exit"
+                  danger
+                  outlined
+                  onClick={() => {
+                    this.props.history.replace("/");
+                  }}
+                />
               </div>
             </div>
           </Card>
