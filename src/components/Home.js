@@ -6,10 +6,14 @@ import QRCode from "qrcode.react";
 import QrReader from "react-qr-reader";
 import { setScore, setRoom, setRound } from "../actions";
 import { connect } from "react-redux";
+import io from "socket.io-client";
+import { url } from "../url/domain";
 import "./Home.css";
 import "@material/card/dist/mdc.card.css";
 import "@material/elevation/dist/mdc.elevation.css";
 import "@material/button/dist/mdc.button.css";
+
+export var socket;
 
 class Home extends Component {
   constructor() {
@@ -28,6 +32,8 @@ class Home extends Component {
   handleScan = data => {
     if (data) {
       console.log("scanned", data);
+      //to join the room
+      socket.emit("join", data);
       this.setState({
         result: data
       });
@@ -60,6 +66,14 @@ class Home extends Component {
     this.props.setRoom({ room: this.state.room });
     this.props.setRound({ round: 0 });
     this.props.setScore({ score: 0 });
+    //connecting to the server
+    socket = io(url + ":4000");
+    //send the room to the server
+    socket.emit("room", this.state.room);
+    //to get the response that someone has joinned the room
+    socket.on("joinned", () => {
+      this.props.history.replace("/game");
+    });
   }
 
   render() {
