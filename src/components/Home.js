@@ -4,7 +4,7 @@ import { Elevation } from "@rmwc/elevation";
 import { Button } from "@rmwc/button";
 import QRCode from "qrcode.react";
 import QrReader from "react-qr-reader";
-import { setScore, setRoom, setRound } from "../actions";
+import { setScore, setRoom, setRound, setDraw } from "../actions";
 import { connect } from "react-redux";
 import io from "socket.io-client";
 import { url } from "../url/domain";
@@ -60,8 +60,9 @@ class Home extends Component {
 
   componentDidMount() {
     this.props.setRoom(this.state.room);
-    this.props.setRound({ round: 1 });
-    this.props.setScore({ score: 0 });
+    this.props.setRound(1);
+    this.props.setScore(0);
+    this.props.setDraw(0);
     //connecting to the server
     socket = io(url + ":4000");
     //send the room to the server
@@ -125,4 +126,9 @@ function mapStoreToProps(state) {
   };
 }
 
-export default connect(mapStoreToProps, { setRoom, setRound, setScore })(Home);
+export default connect(mapStoreToProps, {
+  setRoom,
+  setRound,
+  setScore,
+  setDraw
+})(Home);

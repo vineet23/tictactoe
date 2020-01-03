@@ -5,13 +5,16 @@ import { Button } from "@rmwc/button";
 import { Typography } from "@rmwc/typography";
 import Alert from "./Alert";
 import { connect } from "react-redux";
-import { setRound, setScore } from "../actions";
+import { setRound, setScore, setDraw } from "../actions";
 import { socket } from "./Home";
 import "./Game.css";
 import "@material/typography/dist/mdc.typography.css";
 import "@material/card/dist/mdc.card.css";
 import "@material/elevation/dist/mdc.elevation.css";
 import "@material/button/dist/mdc.button.css";
+
+//to maintain the count for each move
+var count = 9;
 
 class Game extends Component {
   constructor() {
@@ -32,8 +35,11 @@ class Game extends Component {
       seven: "",
       eight: "",
       nine: "",
+      //for recent data i.e number updated
+      recent: "zero",
       //game stats
       score: 0,
+      draw: 0,
       round: 1,
       room: "",
       //to specify whose turn is this
@@ -64,13 +70,187 @@ class Game extends Component {
     }
   }
 
+  //to check state of the passed in number
+  checkstate(number1, number2, number3) {
+    if (
+      this.state[number1] === this.state[number2] &&
+      this.state[number2] === this.state[number3]
+    ) {
+      if (this.state[number1] !== "") return true;
+      else return false;
+    } else {
+      return false;
+    }
+  }
+
+  //to check after each move , about whether anyone wins
+  check(number) {
+    if (number === "one") {
+      if (this.checkstate("one", "two", "three")) {
+        this.result(this.state[number]);
+        return;
+      } else if (this.checkstate("one", "four", "seven")) {
+        this.result(this.state[number]);
+        return;
+      } else if (this.checkstate("one", "five", "nine")) {
+        this.result(this.state[number]);
+        return;
+      }
+    } else if (number === "two") {
+      if (this.checkstate("one", "two", "three")) {
+        this.result(this.state[number]);
+        return;
+      } else if (this.checkstate("two", "five", "eight")) {
+        this.result(this.state[number]);
+        return;
+      }
+    } else if (number === "three") {
+      if (this.checkstate("one", "two", "three")) {
+        this.result(this.state[number]);
+        return;
+      } else if (this.checkstate("three", "six", "nine")) {
+        this.result(this.state[number]);
+        return;
+      } else if (this.checkstate("three", "five", "seven")) {
+        this.result(this.state[number]);
+        return;
+      }
+    } else if (number === "four") {
+      if (this.checkstate("one", "four", "seven")) {
+        this.result(this.state[number]);
+        return;
+      } else if (this.checkstate("four", "five", "six")) {
+        this.result(this.state[number]);
+        return;
+      }
+    } else if (number === "five") {
+      if (this.checkstate("two", "five", "eight")) {
+        this.result(this.state[number]);
+        return;
+      } else if (this.checkstate("four", "five", "six")) {
+        this.result(this.state[number]);
+        return;
+      } else if (this.checkstate("one", "five", "nine")) {
+        this.result(this.state[number]);
+        return;
+      } else if (this.checkstate("seven", "five", "three")) {
+        this.result(this.state[number]);
+        return;
+      }
+    } else if (number === "six") {
+      if (this.checkstate("three", "six", "nine")) {
+        this.result(this.state[number]);
+        return;
+      } else if (this.checkstate("four", "five", "six")) {
+        this.result(this.state[number]);
+        return;
+      }
+    } else if (number === "seven") {
+      if (this.checkstate("one", "four", "seven")) {
+        this.result(this.state[number]);
+        return;
+      } else if (this.checkstate("seven", "eight", "nine")) {
+        this.result(this.state[number]);
+        return;
+      } else if (this.checkstate("seven", "five", "three")) {
+        this.result(this.state[number]);
+        return;
+      }
+    } else if (number === "eight") {
+      if (this.checkstate("two", "five", "eight")) {
+        this.result(this.state[number]);
+        return;
+      } else if (this.checkstate("seven", "eight", "nine")) {
+        this.result(this.state[number]);
+        return;
+      }
+    } else if (number === "nine") {
+      if (this.checkstate("three", "six", "nine")) {
+        this.result(this.state[number]);
+        return;
+      } else if (this.checkstate("seven", "eight", "nine")) {
+        this.result(this.state[number]);
+        return;
+      } else if (this.checkstate("one", "five", "nine")) {
+        this.result(this.state[number]);
+        return;
+      }
+    }
+    if (count === 0) {
+      //for draw
+      var update_draw = this.state.draw + 1;
+      this.props.setDraw(update_draw);
+      //to reset
+      this.reset({
+        open: true,
+        exit: false,
+        draw: update_draw,
+        title: "Result",
+        content: "Match Draw!!"
+      });
+    }
+  }
+
+  //result of the match when any one of the pattern matches
+  result(char) {
+    const { score } = this.state;
+    var { open, title, content, exit } = this.state;
+    var update_score;
+    open = true;
+    exit = false;
+    title = "Result";
+    //the user wons if X
+    if (char === "X") {
+      content = "Hurray! You WON";
+      update_score = score + 1;
+    } else {
+      content = "You LOST";
+      update_score = score;
+    }
+    const stateUpdate = {
+      open: open,
+      exit: exit,
+      title: title,
+      content: content,
+      score: update_score
+    };
+    this.props.setScore(update_score);
+    //to reset
+    this.reset(stateUpdate);
+  }
+
+  //to reset the count and increase the round
+  reset(state = {}) {
+    const { round } = this.state;
+    count = 9;
+    var update_round = round + 1;
+    this.props.setRound(update_round);
+    state.round = update_round;
+    state.recent = "zero";
+    state.one = "";
+    state.two = "";
+    state.three = "";
+    state.four = "";
+    state.five = "";
+    state.six = "";
+    state.seven = "";
+    state.eight = "";
+    state.nine = "";
+    setTimeout(() => {
+      this.setState(state);
+    }, 800);
+  }
+
   //to send the server about the move if it was the users turn
   sendMove(number) {
     if (this.state.turn) {
       if (this.state[number] === "") {
         socket.emit("move", { number: number, room: this.state.room });
+        count--;
+        //update the state
         this.setState({
           [number]: "X",
+          recent: number,
           turn: false
         });
       }
@@ -89,8 +269,11 @@ class Game extends Component {
       socket.on(
         "play",
         function(data) {
+          count--;
+          //update the state about the opponents move
           this.setState({
             [data]: "O",
+            recent: data,
             turn: true
           });
         }.bind(this)
@@ -100,6 +283,8 @@ class Game extends Component {
 
   render() {
     console.log(this.state);
+    //check for completion
+    this.check(this.state.recent);
     return (
       <div className="Gamecontainer">
         <Alert
@@ -252,4 +437,4 @@ function mapStoreToProps(store) {
   };
 }
 
-export default connect(mapStoreToProps, { setRound, setScore })(Game);
+export default connect(mapStoreToProps, { setRound, setScore, setDraw })(Game);

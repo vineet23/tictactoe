@@ -1,4 +1,4 @@
-import { SET_ROOM, SET_ROUND, SET_SCORE } from "../actions";
+import { SET_ROOM, SET_ROUND, SET_SCORE, SET_DRAW } from "../actions";
 import { combineReducers } from "redux";
 
 //store conatins score which conatins score key
@@ -8,6 +8,16 @@ function Score(score = {}, action) {
       return action.score;
     default:
       return score;
+  }
+}
+
+//store contains draw score which contain draw key
+function Draw(draw = {}, action) {
+  switch (action.type) {
+    case SET_DRAW:
+      return action.draw;
+    default:
+      return draw;
   }
 }
 
@@ -31,4 +41,4 @@ function Room(room = {}, action) {
   }
 }
 
-export default combineReducers({ Score, Round, Room });
+export default combineReducers({ Score, Round, Room, Draw });
