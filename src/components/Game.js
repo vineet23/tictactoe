@@ -8,6 +8,8 @@ import Alert from "./Alert";
 import { connect } from "react-redux";
 import { setRound, setScore, setDraw } from "../actions";
 import { socket } from "./Home";
+import ximg from "../images/x.png";
+import oimg from "../images/o.png";
 import "./Game.css";
 import "@material/typography/dist/mdc.typography.css";
 import "@material/card/dist/mdc.card.css";
@@ -293,6 +295,13 @@ class Game extends Component {
     } catch (err) {}
   }
 
+  //set image
+  setImage(char) {
+    if (char === "X") return ximg;
+    else if (char === "O") return oimg;
+    else return "";
+  }
+
   render() {
     console.log(this.state);
     //check for completion
@@ -350,7 +359,14 @@ class Game extends Component {
                             this.sendMove("one");
                           }}
                         >
-                          {this.state.one.trim()}
+                          <img
+                            src={this.setImage(this.state.one.trim())}
+                            alt=""
+                            style={{
+                              width: "90%",
+                              height: "100%"
+                            }}
+                          />
                         </div>
                       </Ripple>
                       <Ripple unbounded>
@@ -360,7 +376,14 @@ class Game extends Component {
                             this.sendMove("two");
                           }}
                         >
-                          {this.state.two.trim()}
+                          <img
+                            src={this.setImage(this.state.two.trim())}
+                            alt=""
+                            style={{
+                              width: "90%",
+                              height: "100%"
+                            }}
+                          />
                         </div>
                       </Ripple>
                       <Ripple unbounded>
@@ -370,7 +393,14 @@ class Game extends Component {
                             this.sendMove("three");
                           }}
                         >
-                          {this.state.three.trim()}
+                          <img
+                            src={this.setImage(this.state.three.trim())}
+                            alt=""
+                            style={{
+                              width: "90%",
+                              height: "100%"
+                            }}
+                          />
                         </div>
                       </Ripple>
                       <Ripple unbounded>
@@ -380,7 +410,14 @@ class Game extends Component {
                             this.sendMove("four");
                           }}
                         >
-                          {this.state.four.trim()}
+                          <img
+                            src={this.setImage(this.state.four.trim())}
+                            alt=""
+                            style={{
+                              width: "90%",
+                              height: "100%"
+                            }}
+                          />
                         </div>
                       </Ripple>
                       <Ripple unbounded>
@@ -390,7 +427,14 @@ class Game extends Component {
                             this.sendMove("five");
                           }}
                         >
-                          {this.state.five.trim()}
+                          <img
+                            src={this.setImage(this.state.five.trim())}
+                            alt=""
+                            style={{
+                              width: "90%",
+                              height: "100%"
+                            }}
+                          />
                         </div>
                       </Ripple>
                       <Ripple unbounded>
@@ -400,7 +444,14 @@ class Game extends Component {
                             this.sendMove("six");
                           }}
                         >
-                          {this.state.six.trim()}
+                          <img
+                            src={this.setImage(this.state.six.trim())}
+                            alt=""
+                            style={{
+                              width: "90%",
+                              height: "100%"
+                            }}
+                          />
                         </div>
                       </Ripple>
                       <Ripple unbounded>
@@ -410,7 +461,14 @@ class Game extends Component {
                             this.sendMove("seven");
                           }}
                         >
-                          {this.state.seven.trim()}
+                          <img
+                            src={this.setImage(this.state.seven.trim())}
+                            alt=""
+                            style={{
+                              width: "90%",
+                              height: "100%"
+                            }}
+                          />
                         </div>
                       </Ripple>
                       <Ripple unbounded>
@@ -420,7 +478,14 @@ class Game extends Component {
                             this.sendMove("eight");
                           }}
                         >
-                          {this.state.eight.trim()}
+                          <img
+                            src={this.setImage(this.state.eight.trim())}
+                            alt=""
+                            style={{
+                              width: "90%",
+                              height: "100%"
+                            }}
+                          />
                         </div>
                       </Ripple>
                       <Ripple unbounded>
@@ -430,7 +495,14 @@ class Game extends Component {
                             this.sendMove("nine");
                           }}
                         >
-                          {this.state.nine.trim()}
+                          <img
+                            src={this.setImage(this.state.nine.trim())}
+                            alt=""
+                            style={{
+                              width: "90%",
+                              height: "100%"
+                            }}
+                          />
                         </div>
                       </Ripple>
                     </div>
