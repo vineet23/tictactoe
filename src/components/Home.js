@@ -63,6 +63,9 @@ class Home extends Component {
     this.props.setRound(1);
     this.props.setScore(0);
     this.props.setDraw(0);
+    try {
+      socket.close();
+    } catch (err) {}
     //connecting to the server
     socket = io(url + ":4000");
     //send the room to the server

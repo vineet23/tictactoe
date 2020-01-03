@@ -53,6 +53,7 @@ class Game extends Component {
     if (action === "ok") {
       //if exit
       if (this.state.exit) {
+        socket.emit("exit", this.state.room);
         this.props.history.replace("/exit");
       }
       //else hide the alert
@@ -263,9 +264,10 @@ class Game extends Component {
     this.setState({
       room: this.props.room
     });
-    //when opponent makes a move
-    //data is the block number to which the opponent has played
+
     try {
+      //when opponent makes a move
+      //data is the block number to which the opponent has played
       socket.on(
         "play",
         function(data) {
@@ -276,6 +278,14 @@ class Game extends Component {
             recent: data,
             turn: true
           });
+        }.bind(this)
+      );
+
+      //when the opponent exits
+      socket.on(
+        "stop",
+        function() {
+          this.props.history.replace("/exit");
         }.bind(this)
       );
     } catch (err) {}
