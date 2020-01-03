@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Card } from "@rmwc/card";
 import { Elevation } from "@rmwc/elevation";
 import { Button } from "@rmwc/button";
+import { Ripple } from "@rmwc/ripple";
 import { Typography } from "@rmwc/typography";
 import Alert from "./Alert";
 import { connect } from "react-redux";
@@ -12,6 +13,7 @@ import "@material/typography/dist/mdc.typography.css";
 import "@material/card/dist/mdc.card.css";
 import "@material/elevation/dist/mdc.elevation.css";
 import "@material/button/dist/mdc.button.css";
+import "@material/ripple/dist/mdc.ripple.css";
 
 //to maintain the count for each move
 var count = 9;
@@ -341,78 +343,96 @@ class Game extends Component {
                 <div className="Gameplay">
                   <div className="GameWindow">
                     <div className="Gameplayground">
-                      <div
-                        style={{ textAlign: "center" }}
-                        onClick={() => {
-                          this.sendMove("one");
-                        }}
-                      >
-                        {this.state.one.trim()}
-                      </div>
-                      <div
-                        style={{ textAlign: "center" }}
-                        onClick={() => {
-                          this.sendMove("two");
-                        }}
-                      >
-                        {this.state.two.trim()}
-                      </div>
-                      <div
-                        style={{ textAlign: "center" }}
-                        onClick={() => {
-                          this.sendMove("three");
-                        }}
-                      >
-                        {this.state.three.trim()}
-                      </div>
-                      <div
-                        style={{ textAlign: "center" }}
-                        onClick={() => {
-                          this.sendMove("four");
-                        }}
-                      >
-                        {this.state.four.trim()}
-                      </div>
-                      <div
-                        style={{ textAlign: "center" }}
-                        onClick={() => {
-                          this.sendMove("five");
-                        }}
-                      >
-                        {this.state.five.trim()}
-                      </div>
-                      <div
-                        style={{ textAlign: "center" }}
-                        onClick={() => {
-                          this.sendMove("six");
-                        }}
-                      >
-                        {this.state.six.trim()}
-                      </div>
-                      <div
-                        style={{ textAlign: "center" }}
-                        onClick={() => {
-                          this.sendMove("seven");
-                        }}
-                      >
-                        {this.state.seven.trim()}
-                      </div>
-                      <div
-                        style={{ textAlign: "center" }}
-                        onClick={() => {
-                          this.sendMove("eight");
-                        }}
-                      >
-                        {this.state.eight.trim()}
-                      </div>
-                      <div
-                        style={{ textAlign: "center" }}
-                        onClick={() => {
-                          this.sendMove("nine");
-                        }}
-                      >
-                        {this.state.nine.trim()}
-                      </div>
+                      <Ripple unbounded>
+                        <div
+                          style={{ textAlign: "center" }}
+                          onClick={() => {
+                            this.sendMove("one");
+                          }}
+                        >
+                          {this.state.one.trim()}
+                        </div>
+                      </Ripple>
+                      <Ripple unbounded>
+                        <div
+                          style={{ textAlign: "center" }}
+                          onClick={() => {
+                            this.sendMove("two");
+                          }}
+                        >
+                          {this.state.two.trim()}
+                        </div>
+                      </Ripple>
+                      <Ripple unbounded>
+                        <div
+                          style={{ textAlign: "center" }}
+                          onClick={() => {
+                            this.sendMove("three");
+                          }}
+                        >
+                          {this.state.three.trim()}
+                        </div>
+                      </Ripple>
+                      <Ripple unbounded>
+                        <div
+                          style={{ textAlign: "center" }}
+                          onClick={() => {
+                            this.sendMove("four");
+                          }}
+                        >
+                          {this.state.four.trim()}
+                        </div>
+                      </Ripple>
+                      <Ripple unbounded>
+                        <div
+                          style={{ textAlign: "center" }}
+                          onClick={() => {
+                            this.sendMove("five");
+                          }}
+                        >
+                          {this.state.five.trim()}
+                        </div>
+                      </Ripple>
+                      <Ripple unbounded>
+                        <div
+                          style={{ textAlign: "center" }}
+                          onClick={() => {
+                            this.sendMove("six");
+                          }}
+                        >
+                          {this.state.six.trim()}
+                        </div>
+                      </Ripple>
+                      <Ripple unbounded>
+                        <div
+                          style={{ textAlign: "center" }}
+                          onClick={() => {
+                            this.sendMove("seven");
+                          }}
+                        >
+                          {this.state.seven.trim()}
+                        </div>
+                      </Ripple>
+                      <Ripple unbounded>
+                        <div
+                          style={{ textAlign: "center" }}
+                          onClick={() => {
+                            this.sendMove("eight");
+                          }}
+                        >
+                          {this.state.eight.trim()}
+                        </div>
+                      </Ripple>
+                      <Ripple unbounded>
+                        <div
+                          style={{ textAlign: "center" }}
+                          onClick={() => {
+                            this.sendMove("nine");
+                          }}
+                        >
+                          {this.state.nine.trim()}
+                        </div>
+                      </Ripple>
                     </div>
                   </div>
                 </div>
