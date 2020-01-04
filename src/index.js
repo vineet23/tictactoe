@@ -7,9 +7,23 @@ import { Provider } from "react-redux";
 import Home from "./components/Home";
 import Game from "./components/Game";
 import Exit from "./components/Exit";
+import io from "socket.io-client";
+import { url } from "./url/domain";
 
 //created store
 const store = createStore(rootReducer);
+
+export var socket;
+
+try {
+  socket.close();
+} catch (err) {}
+//connecting to the server
+socket = io(url + ":4000", {
+  verify: false,
+  transports: ["websocket"],
+  rejectUnauthorized: false
+});
 
 store.subscribe(() => console.log("store", store.getState()));
 
@@ -18,7 +32,7 @@ ReactDOM.render(
     <BrowserRouter>
       <Switch>
         <Route exact path="/" component={Home} />
-        <Route path="/game" component={Game} />
+        <Route path="/game/:room" component={Game} />
         <Route path="/exit" component={Exit} />
       </Switch>
     </BrowserRouter>

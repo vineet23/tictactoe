@@ -6,8 +6,8 @@ import { Ripple } from "@rmwc/ripple";
 import { Typography } from "@rmwc/typography";
 import Alert from "./Alert";
 import { connect } from "react-redux";
-import { setRound, setScore, setDraw } from "../actions";
-import { socket } from "./Home";
+import { setRound, setScore, setDraw, setRoom } from "../actions";
+import { socket } from "../index";
 import ximg from "../images/x.png";
 import oimg from "../images/o.png";
 import "./Game.css";
@@ -16,9 +16,6 @@ import "@material/card/dist/mdc.card.css";
 import "@material/elevation/dist/mdc.elevation.css";
 import "@material/button/dist/mdc.button.css";
 import "@material/ripple/dist/mdc.ripple.css";
-
-//to maintain the count for each move
-var count = 9;
 
 class Game extends Component {
   constructor() {
@@ -39,7 +36,8 @@ class Game extends Component {
       seven: "",
       eight: "",
       nine: "",
-      //for recent data i.e number updated
+      //for recent data i.e number updated and count
+      count: 9,
       recent: "zero",
       //game stats
       score: 0,
@@ -90,6 +88,9 @@ class Game extends Component {
 
   //to check after each move , about whether anyone wins
   check(number) {
+    this.props.setDraw(this.state.draw);
+    this.props.setScore(this.state.score);
+    this.props.setRound(this.state.round);
     if (number === "one") {
       if (this.checkstate("one", "two", "three")) {
         this.result(this.state[number]);
@@ -181,7 +182,7 @@ class Game extends Component {
         return;
       }
     }
-    if (count === 0) {
+    if (this.state.count === 0) {
       //for draw
       var update_draw = this.state.draw + 1;
       this.props.setDraw(update_draw);
@@ -189,6 +190,7 @@ class Game extends Component {
       this.reset({
         open: true,
         exit: false,
+        count: 9,
         draw: update_draw,
         title: "Result",
         content: "Match Draw!!"
@@ -217,6 +219,7 @@ class Game extends Component {
       exit: exit,
       title: title,
       content: content,
+      count: 9,
       score: update_score
     };
     this.props.setScore(update_score);
@@ -227,9 +230,9 @@ class Game extends Component {
   //to reset the count and increase the round
   reset(state = {}) {
     const { round } = this.state;
-    count = 9;
     var update_round = round + 1;
     this.props.setRound(update_round);
+    this.props.setDraw(this.state.draw);
     state.round = update_round;
     state.recent = "zero";
     state.one = "";
@@ -251,35 +254,42 @@ class Game extends Component {
     if (this.state.turn) {
       if (this.state[number] === "") {
         socket.emit("move", { number: number, room: this.state.room });
-        count--;
+        const cnt = this.state.count - 1;
         //update the state
         this.setState({
           [number]: "X",
           recent: number,
+          count: cnt,
           turn: false
         });
       }
     }
   }
 
+  UNSAFE_componentWillReceiveProps() {
+    this.setState({
+      room: this.props.match.params.room
+    });
+  }
+
   //listen for socket events
   componentDidMount() {
-    console.log(this.props);
-    this.setState({
-      room: this.props.room
-    });
-
+    console.log("props", this.props);
     try {
+      //to join the room
+      this.props.setRoom(this.props.match.params.room);
+      socket.emit("join", this.props.match.params.room);
       //when opponent makes a move
       //data is the block number to which the opponent has played
       socket.on(
         "play",
         function(data) {
-          count--;
+          const cnt = this.state.count - 1;
           //update the state about the opponents move
           this.setState({
             [data]: "O",
             recent: data,
+            count: cnt,
             turn: true
           });
         }.bind(this)
@@ -293,6 +303,9 @@ class Game extends Component {
         }.bind(this)
       );
     } catch (err) {}
+    this.setState({
+      room: this.props.match.params.room
+    });
   }
 
   //set image
@@ -539,4 +552,9 @@ function mapStoreToProps(store) {
   };
 }
 
-export default connect(mapStoreToProps, { setRound, setScore, setDraw })(Game);
+export default connect(mapStoreToProps, {
+  setRound,
+  setScore,
+  setDraw,
+  setRoom
+})(Game);

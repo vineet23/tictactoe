@@ -6,14 +6,12 @@ import QRCode from "qrcode.react";
 import QrReader from "react-qr-reader";
 import { setScore, setRoom, setRound, setDraw } from "../actions";
 import { connect } from "react-redux";
-import io from "socket.io-client";
 import { url } from "../url/domain";
+import { socket } from "../index";
 import "./Home.css";
 import "@material/card/dist/mdc.card.css";
 import "@material/elevation/dist/mdc.elevation.css";
 import "@material/button/dist/mdc.button.css";
-
-export var socket;
 
 class Home extends Component {
   constructor() {
@@ -22,7 +20,7 @@ class Home extends Component {
       //to define whether to show scan or display
       scan: true,
       //to make a room id
-      room: this.makeid(12)
+      room: this.makeid(6)
     };
   }
 
@@ -31,8 +29,9 @@ class Home extends Component {
     if (data) {
       console.log("scanned", data);
       //to join the room
-      this.props.setRoom(data);
-      socket.emit("join", data);
+      this.props.setRoom(data.slice(-6));
+      socket.emit("join", data.slice(-6));
+      this.setState({ room: data.slice(-6) });
     }
   };
   //to handle the error
@@ -63,16 +62,13 @@ class Home extends Component {
     this.props.setRound(1);
     this.props.setScore(0);
     this.props.setDraw(0);
-    try {
-      socket.close();
-    } catch (err) {}
-    //connecting to the server
-    socket = io(url + ":4000");
     //send the room to the server
     socket.emit("room", this.state.room);
     //to get the response that someone has joinned the room
     socket.on("joinned", () => {
-      this.props.history.replace("/game");
+      console.log(this.state.room);
+      this.props.setRoom(this.state.room);
+      this.props.history.replace("/game/" + this.state.room);
     });
   }
 
@@ -85,7 +81,7 @@ class Home extends Component {
               <div style={{ textAlign: "center", alignSelf: "center" }}>
                 {this.state.scan ? (
                   <QRCode
-                    value={this.state.room}
+                    value={"http://" + url + ":3000/game/" + this.state.room}
                     renderAs="svg"
                     level="H"
                     size="256"
